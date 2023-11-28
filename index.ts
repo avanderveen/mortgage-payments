@@ -30,7 +30,7 @@ export default function init() {
         for (var paymentData of payments) {
             const row = document.createElement("tr");
             addColumn(row, paymentData.paymentId + 1, "text");
-            const date = new Date(start.getFullYear(), start.getMonth(), start.getDay());
+            const date = new Date(start.getFullYear(), start.getMonth(), 1);
             date.setMonth(start.getMonth() + paymentData.paymentId);
             addColumn(row, date.toLocaleDateString('en-CA', { year:"numeric", month:"short" }), "text");
             addColumn(row, paymentData.payment);
