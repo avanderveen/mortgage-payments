@@ -44,10 +44,18 @@ export default function init() {
     document.forms[0].onsubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(document.forms[0]);
+        const frequency = formData.get("frequency") as string;
         const startDate = formData.get("start")
             ? new Date(formData.get("start") as string)
             : new Date();
-        const frequency = formData.get("frequency") as string;
+        if (frequency === "semiMonthly") {
+            if (Math.abs(startDate.getDate() - 15) < 15) {
+                startDate.setDate(1);
+            } else {
+                startDate.setDate(15);
+            }
+        }
+
         const payments = mortgagePayments(
             parseFloat(formData.get("principal") as string),
             parseFloat(formData.get("rate") as string),
