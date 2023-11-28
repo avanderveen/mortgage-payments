@@ -35,7 +35,7 @@ function frequencyOffset(
         case "weekly":      return { unit: 'weeks',  amount: 1 };
         case "biWeekly":    return { unit: 'weeks',  amount: 2 };
         case "monthly":     return { unit: 'months', amount: 1 };
-        case "semiMonthly": return { unit: 'months', amount: 0.5 };
+        case "semiMonthly": return { unit: 'weeks',  amount: 2 };
         default: throw new Error(`Not supported: ${frequency}`);
     }
 }
