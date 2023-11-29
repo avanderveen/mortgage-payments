@@ -37,15 +37,8 @@ export default function init() {
         const formData = new FormData(document.forms[0]);
         const frequency = formData.get('frequency') as string;
         const startDate = formData.get('start')
-            ? new Date(formData.get('start') as string)
+            ? moment(formData.get('start') as string).toDate()
             : new Date();
-        if (frequency === 'semiMonthly') {
-            if (Math.abs(startDate.getDate() - 15) < 15) {
-                startDate.setDate(1);
-            } else {
-                startDate.setDate(15);
-            }
-        }
 
         const payments = mortgagePayments(
             parseFloat(formData.get('principal') as string),
@@ -126,7 +119,7 @@ class SimpleFrequencyOffset implements FrequencyOffset {
     }
 }
 
-declare function moment(date: Date): Moment
+declare function moment(date: Date | string): Moment
 
 declare interface Moment {
     add(unit: string, amount: number): Moment
