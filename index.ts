@@ -87,6 +87,14 @@ function frequencyOffset(frequency: string): FrequencyOffset {
     return new SimpleFrequencyOffset(frequency);
 }
 
+class SemiMonthlyFrequencyOffset implements FrequencyOffset {
+    paymentDate(start: Date, paymentNumber: number): Date {
+        const date = moment(new Date(start)).add('months', Math.floor(paymentNumber / 2)).toDate();
+        date.setDate(paymentNumber % 2 === 0 ? 1 : 15);
+        return date;
+    }
+}
+
 class SimpleFrequencyOffset implements FrequencyOffset {
     private readonly unit: string;
     private readonly amount: number;
@@ -101,7 +109,7 @@ class SimpleFrequencyOffset implements FrequencyOffset {
                 this.unit = 'weeks';
                 this.amount = 2;
                 break;
-            case 'montly':
+            case 'monthly':
                 this.unit = 'months';
                 this.amount = 1;
                 break;
@@ -115,14 +123,6 @@ class SimpleFrequencyOffset implements FrequencyOffset {
             this.unit,
             this.amount * paymentNumber
         ).toDate();
-    }
-}
-
-class SemiMonthlyFrequencyOffset implements FrequencyOffset {
-    paymentDate(start: Date, paymentNumber: number): Date {
-        const date = moment(new Date(start)).add('months', Math.floor(paymentNumber / 2)).toDate();
-        date.setDate(paymentNumber % 2 === 0 ? 1 : 15);
-        return date;
     }
 }
 
